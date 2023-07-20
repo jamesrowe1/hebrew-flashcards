@@ -7,7 +7,9 @@ const Flashcard = ({ flashcard }) => {
   const handleClick = () => {
     setIsFlipped(!isFlipped);
     // Play the audio when the card is flipped
+    console.log(flashcard.pronunciation.toLowerCase())
     audioRef.current.play();
+    console.log("hey")
   };
 
   return (
@@ -22,8 +24,7 @@ const Flashcard = ({ flashcard }) => {
       </div>
       {/* Add the audio element */}
       <audio ref={audioRef}>
-        <source src={`/audio/${flashcard.hebrewLetter.toLowerCase()}.wav`} type="audio/mpeg" />
-        Your browser does not support the audio element.
+        <source src={`hebrew-flashcards/audio/${flashcard.pronunciation.toLowerCase()}.wav`} type="audio/wav" />
       </audio>
     </div>
   );

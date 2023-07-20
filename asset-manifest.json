@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/hebrew-flashcards/static/css/main.d70000a7.css",
-    "main.js": "/hebrew-flashcards/static/js/main.1857c301.js",
+    "main.js": "/hebrew-flashcards/static/js/main.c3ece1ff.js",
     "static/js/787.12f27de7.chunk.js": "/hebrew-flashcards/static/js/787.12f27de7.chunk.js",
     "index.html": "/hebrew-flashcards/index.html",
     "main.d70000a7.css.map": "/hebrew-flashcards/static/css/main.d70000a7.css.map",
-    "main.1857c301.js.map": "/hebrew-flashcards/static/js/main.1857c301.js.map",
+    "main.c3ece1ff.js.map": "/hebrew-flashcards/static/js/main.c3ece1ff.js.map",
     "787.12f27de7.chunk.js.map": "/hebrew-flashcards/static/js/787.12f27de7.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.d70000a7.css",
-    "static/js/main.1857c301.js"
+    "static/js/main.c3ece1ff.js"
   ]
 }

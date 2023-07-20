@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import FlashcardList from './components/FlashcardList';
+import MatchingGame from './components/MatchingGame';
 
 const App = () => {
   const flashcards = [
@@ -29,10 +30,22 @@ const App = () => {
   ];
   
 
+  const renderFlashcards = () => {
+    return <FlashcardList flashcards={flashcards} />;
+  };
+
+  const renderMatchingGame = () => {
+    return <MatchingGame flashcards={flashcards} />;
+  };
+
   return (
     <div className="container">
       <h1 className="title">Hebrew Flashcards</h1>
-      <FlashcardList flashcards={flashcards} />
+      <div className="navigation">
+        <button onClick={renderFlashcards}>Flashcards</button>
+        <button onClick={renderMatchingGame}>Matching Game</button>
+      </div>
+      {renderFlashcards()} {/* or renderMatchingGame() */}
     </div>
   );
 };

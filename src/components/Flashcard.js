@@ -24,7 +24,7 @@ const Flashcard = ({ flashcard }) => {
       </div>
       {/* Add the audio element */}
       <audio ref={audioRef}>
-        <source src={`hebrew-flashcards/audio/${flashcard.pronunciation.toLowerCase()}.wav`} type="audio/wav" />
+        <source src={`${process.env.PUBLIC_URL}/audio/${flashcard.pronunciation.toLowerCase()}.wav`} type="audio/wav" />
       </audio>
     </div>
   );

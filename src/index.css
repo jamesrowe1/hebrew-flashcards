@@ -30,10 +30,6 @@ body {
     transition: transform 0.5s;
   }
   
-  .card.flipped {
-    transform: rotateY(180deg);
-  }
-  
   .card div {
     display: flex;
     align-items: center;
@@ -52,6 +48,6 @@ body {
   
   .card .back {
     background-color: #f50057;
-    transform: rotateY(180deg);
+    /*transform: rotateY(180deg);*/
   }
   

@@ -1,4 +1,5 @@
 import React from 'react';
+import './App.css';
 import FlashcardList from './components/FlashcardList';
 
 const App = () => {
@@ -30,7 +31,7 @@ const App = () => {
 
   return (
     <div className="container">
-      <h1>Hebrew Flashcards</h1>
+      <h1 className="title">Hebrew Flashcards</h1>
       <FlashcardList flashcards={flashcards} />
     </div>
   );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import FlashcardList from './components/FlashcardList';
 import MatchingGame from './components/MatchingGame';
@@ -28,24 +28,25 @@ const App = () => {
     { id: 21, hebrewLetter: 'ש', pronunciation: 'Shin' },
     { id: 22, hebrewLetter: 'ת', pronunciation: 'Tav' },
   ];
-  
 
-  const renderFlashcards = () => {
-    return <FlashcardList flashcards={flashcards} />;
-  };
+  const [selectedView, setSelectedView] = useState('flashcards');
 
-  const renderMatchingGame = () => {
-    return <MatchingGame flashcards={flashcards} />;
+  const handleNavigationClick = (view) => {
+    setSelectedView(view);
   };
 
   return (
     <div className="container">
       <h1 className="title">Hebrew Flashcards</h1>
       <div className="navigation">
-        <button onClick={renderFlashcards}>Flashcards</button>
-        <button onClick={renderMatchingGame}>Matching Game</button>
+        <button onClick={() => handleNavigationClick('flashcards')}>Flashcards</button>
+        <button onClick={() => handleNavigationClick('matching')}>Matching Game</button>
       </div>
-      {renderFlashcards()} {/* or renderMatchingGame() */}
+      {selectedView === 'flashcards' ? (
+        <FlashcardList flashcards={flashcards} />
+      ) : (
+        <MatchingGame flashcards={flashcards} />
+      )}
     </div>
   );
 };

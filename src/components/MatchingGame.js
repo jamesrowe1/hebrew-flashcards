@@ -1,75 +1,100 @@
 import React, { useState, useEffect } from 'react';
 
-// Function to shuffle an array
 const shuffleArray = (array) => {
-  return array.sort(() => Math.random() - 0.5);
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
 };
 
 const MatchingGame = ({ flashcards }) => {
-  const [shuffledFlashcards, setShuffledFlashcards] = useState([]);
-  const [currentCardIndex, setCurrentCardIndex] = useState(0);
-  const [matches, setMatches] = useState(0);
-  const [loading, setLoading] = useState(true);
+  const [currentFlashcard, setCurrentFlashcard] = useState(null);
+  const [pronunciationOptions, setPronunciationOptions] = useState([]);
+  const [matches, setMatches] = useState([]);
+  const [correctCount, setCorrectCount] = useState(0);
 
   useEffect(() => {
-    setShuffledFlashcards(shuffleArray(flashcards));
-    setLoading(false);
+    setCurrentFlashcard(null);
+    setCorrectCount(0);
   }, [flashcards]);
 
-  const handlePronunciationClick = (pronunciation) => {
-    const currentCard = shuffledFlashcards[currentCardIndex];
-    if (currentCard.pronunciation === pronunciation) {
-      setMatches((prevMatches) => prevMatches + 1);
-    }
+  useEffect(() => {
+    if (flashcards.length > 0 && currentFlashcard === null) {
+      const remainingFlashcards = flashcards.filter(
+        (flashcard) => !matches.includes(flashcard)
+      );
 
-    if (currentCardIndex < shuffledFlashcards.length - 1) {
-      setCurrentCardIndex((prevIndex) => prevIndex + 1);
-    } else {
-      // Reset the game when all cards have been matched
-      setShuffledFlashcards(shuffleArray(flashcards));
-      setCurrentCardIndex(0);
-      setMatches(0);
+      if (remainingFlashcards.length === 0) {
+        setCurrentFlashcard(null);
+      } else {
+        setCurrentFlashcard(remainingFlashcards[Math.floor(Math.random() * remainingFlashcards.length)]);
+        setPronunciationOptions([]);
+      }
+    }
+  }, [flashcards, currentFlashcard, matches]);
+
+  useEffect(() => {
+    if (currentFlashcard) {
+      const correctPronunciation = currentFlashcard.pronunciation;
+      const allPronunciations = flashcards.map((flashcard) => flashcard.pronunciation);
+      const shuffledOptions = shuffleArray(
+        [correctPronunciation, ...getRandomPronunciations(correctPronunciation, allPronunciations)]
+      );
+      setPronunciationOptions(shuffledOptions);
+    }
+  }, [currentFlashcard, flashcards]);
+
+  const getRandomPronunciations = (correctPronunciation, allPronunciations) => {
+    const filteredPronunciations = allPronunciations.filter(
+      (pronunciation) => pronunciation !== correctPronunciation
+    );
+    const shuffledPronunciations = shuffleArray(filteredPronunciations);
+    return shuffledPronunciations.slice(0, 3);
+  };
+
+  const handleOptionClick = (selectedOption) => {
+    if (currentFlashcard) {
+      if (selectedOption === currentFlashcard.pronunciation) {
+        setCorrectCount((prevCount) => prevCount + 1);
+        setMatches((prevMatches) => [...prevMatches, currentFlashcard]);
+      }
+      setCurrentFlashcard(null);
     }
   };
 
-  if (loading) {
-    return <div>Loading...</div>; // You can display a loading message or spinner here
-  }
-
-  const currentCard = shuffledFlashcards[currentCardIndex];
-
-  // Generate a set of random pronunciations including the correct one
-  const randomPronunciations = shuffleArray(
-    Array.from(new Set(shuffledFlashcards.map((flashcard) => flashcard.pronunciation)))
-  ).slice(0, 3);
-
-  // Include the correct pronunciation in the set
-  randomPronunciations.push(currentCard.pronunciation);
-
-  // Shuffle the pronunciations again to change their order
-  const shuffledPronunciations = shuffleArray(randomPronunciations);
-
   return (
     <div className="matching-game">
-      <h2>Matching Game</h2>
-      <div className="matching-card">
-        {currentCard.hebrewLetter}
-      </div>
-      <div className="pronunciation-options">
-        {shuffledPronunciations.map((pronunciation, index) => (
-          <button
-            key={index}
-            onClick={() => handlePronunciationClick(pronunciation)}
-            className={currentCard.pronunciation === pronunciation ? 'correct' : ''}
-            disabled={currentCard.pronunciation !== pronunciation}
-          >
-            {pronunciation}
-          </button>
-        ))}
-      </div>
-      <div className="matches">
-        Matches: {matches}/{flashcards.length}
-      </div>
+      {currentFlashcard && (
+        <>
+        <div className="card-grid">
+          <div className="card">
+            <div className="flashcard">
+              <div className="front">
+                <span className="hebrew-letter">{currentFlashcard.hebrewLetter}</span>
+              </div>
+            </div>
+          </div>
+          <div className="pronunciation-options">
+            {pronunciationOptions.map((option, index) => (
+              <button key={index} onClick={() => handleOptionClick(option)}>
+                {option}
+              </button>
+            ))}
+          </div>
+          <p className="counter">Correct: {correctCount} / Total: {flashcards.length}</p>
+          </div>
+        </>
+      )}
+      
+      {correctCount === flashcards.length && (
+        <p className="feedback-all-matched">Congratulations! You've got them all right!</p>
+      )}
+      {matches.length === flashcards.length && correctCount !== flashcards.length && (
+        <p className="feedback-all-matched">
+          Congratulations! You've matched all the letters. Keep practicing!
+        </p>
+      )}
     </div>
   );
 };

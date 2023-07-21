@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import FlashcardList from './components/FlashcardList';
 import MatchingGame from './components/MatchingGame';
@@ -35,18 +35,34 @@ const App = () => {
     setSelectedView(view);
   };
 
+  const [isSticky, setSticky] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setSticky(window.pageYOffset > 0);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
-    <div className="container">
-      <h1 className="title">Hebrew Flashcards</h1>
-      <div className="navigation">
+    <div>
+      <h1 className="title">Learn the Hebrew Alphabet</h1>
+      <div className={`navigation ${isSticky ? 'sticky' : ''}`}>
         <button onClick={() => handleNavigationClick('flashcards')}>Flashcards</button>
         <button onClick={() => handleNavigationClick('matching')}>Matching Game</button>
       </div>
-      {selectedView === 'flashcards' ? (
-        <FlashcardList flashcards={flashcards} />
-      ) : (
-        <MatchingGame flashcards={flashcards} />
-      )}
+      <div className="container">
+        {selectedView === 'flashcards' ? (
+          <FlashcardList flashcards={flashcards} />
+        ) : (
+          <MatchingGame flashcards={flashcards} />
+        )}
+      </div>
     </div>
   );
 };

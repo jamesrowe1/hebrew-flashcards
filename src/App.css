@@ -1,16 +1,28 @@
+/* App.css */
+
 body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background-color: #f2f2f2;
+    background-color: #E6F4FF;
   }
   
+  
+.app {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f8ff; /* Replace with your chosen soothing background color */
+  }
+
   .container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    height: 50vh;
   }
   
   .card-grid {
@@ -108,8 +120,29 @@ body {
     font-size: 1.2rem;
   }
   
+  
+.title {
+  text-align: center;
+  margin: 20px 0;
+  color: #3f51b5;
+  font-size: 32px;
+}
+
+  /* Improved Styles for Navigation */
+  
   .navigation {
-    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
+    /*background-color: rgba(255, 255, 255, 0.9);*/
+    backdrop-filter: blur(5px);
+    z-index: 1;
+    transition: transform 0.3s;
+  }
+  
+  .navigation.hidden {
+    transform: translateY(-100%);
   }
   
   .navigation button {
@@ -128,24 +161,36 @@ body {
   
   .pronunciation-options {
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
     gap: 10px;
     margin-top: 10px;
   }
   
-  .pronunciation-options button {
-    padding: 8px 12px;
-    font-size: 16px;
-    border: 1px solid #ccc;
+  .matching-game .flashcard {
+    position: relative;
+    height: 250px; /* Increase card height */
+    width: 200px;
     cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform 0.5s;
   }
   
-  .pronunciation-options button.correct {
-    background-color: green;
-    color: white;
+  .matching-game .flashcard .front {
+    background-color: #3f51b5;
+    z-index: 2;
   }
   
-  .pronunciation-options button:disabled {
-    cursor: not-allowed;
+
+
+  .hebrew-letter {
+    font-size: 3rem;
+    padding: 10px;
   }
-  
+
+  .counter {
+    z-index: -1;
+    position: relative;
+    color: black;
+  }
